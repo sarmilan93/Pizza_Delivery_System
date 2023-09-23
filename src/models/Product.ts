@@ -1,0 +1,31 @@
+import { Schema, model } from "mongoose";
+
+let productSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    sku: {
+        type: String,
+        required: true,
+    },
+    size: {
+        type: String,
+        enum: ['Small', 'Regular', 'Large'],
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    }
+});
+
+productSchema.pre('save', function (next) {
+    const product = this;
+    const baseSKU = "Pizza";
+    product.sku = `${baseSKU}_${product.size}`;
+    next();
+})
+
+const Book = model('Product', productSchema, 'Product');
+export default Book;
