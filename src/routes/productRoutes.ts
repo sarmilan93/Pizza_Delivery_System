@@ -1,11 +1,12 @@
 import express from "express";
 import ProductController from "../controllers/productController";
+import { authenticateUser } from "../middleware/authMiddleware";
 
 const productRouter = express.Router();
 const productController = new ProductController();
 
-//Create Products
-productRouter.post("/products/addProducts", (_req, res) => {
+//Create Products - only admin
+productRouter.post("/products/addProducts", authenticateUser('Admin'), (_req, res) => {
   productController.createProducts(_req.body)
     .then(response => {
       res.status(201).send(response);
@@ -15,8 +16,8 @@ productRouter.post("/products/addProducts", (_req, res) => {
     });
 });
 
-//Get Products
-productRouter.get("/products/getProducts", (_req, res) => {
+//Get Products - only admin
+productRouter.get("/products/getProducts", authenticateUser('Admin'), (_req, res) => {
   productController.getProducts()
     .then(response => {
       res.status(201).send(response);
@@ -26,8 +27,8 @@ productRouter.get("/products/getProducts", (_req, res) => {
     });
 });
 
-//Get Product By ID
-productRouter.get("/products/getProducts/:id", (_req, res) => {
+//Get Product By ID - only admin
+productRouter.get("/products/getProducts/:id", authenticateUser('Admin'), (_req, res) => {
   productController.getProductsById(_req.params.id)
     .then(response => {
       res.status(201).send(response);
@@ -37,8 +38,8 @@ productRouter.get("/products/getProducts/:id", (_req, res) => {
     });
 });
 
-//Update Product By ID
-productRouter.put("/products/updateProduct/:id", (_req, res) => {
+//Update Product By ID - only admin
+productRouter.put("/products/updateProduct/:id", authenticateUser('Admin'), (_req, res) => {
   productController.updateProduct(_req.body, _req.params.id)
     .then(response => {
       res.status(201).send(response);
@@ -48,8 +49,8 @@ productRouter.put("/products/updateProduct/:id", (_req, res) => {
     });
 });
 
-//Delete Product By ID
-productRouter.delete("/products/deleteProduct/:id", (_req, res) => {
+//Delete Product By ID - only admin
+productRouter.delete("/products/deleteProduct/:id", authenticateUser('Admin'), (_req, res) => {
   productController.deleteProductsById(_req.params.id)
     .then(response => {
       res.status(201).send(response);

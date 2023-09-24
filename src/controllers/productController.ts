@@ -75,7 +75,7 @@ export default class ProductController extends Controller {
   }
 
   //Update Products By ID Controller
-  @SuccessResponse("201", "Created")
+  @SuccessResponse("201", "Updated")
   @Put("/updateProduct/{id}")
   public async updateProduct(@Body() _req: ProductInterface, @Path() id: string): Promise<ProductResponse> {
     try {
