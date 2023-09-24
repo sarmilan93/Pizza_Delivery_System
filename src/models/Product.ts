@@ -1,12 +1,5 @@
 import { Schema, model } from "mongoose";
 
-export interface ProductInterface {
-    name: string,
-    sku: string,
-    size: "Small" | "Regular" | "Large",
-    price: number
-}
-
 let productSchema = new Schema({
     name: {
         type: String,

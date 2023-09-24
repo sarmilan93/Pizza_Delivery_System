@@ -1,12 +1,17 @@
 import { Controller, Get, Post, Route, Body, SuccessResponse, Path, Put, Tags, Delete } from "tsoa";
-import Product, { ProductInterface } from "../models/Product";
+import Product from "../models/Product";
 
 interface ProductResponse {
   message: string,
   data: any
 }
 
-export type ProductCreationParams = Pick<ProductInterface, "name" | "sku" | "size" | "price">;
+interface ProductInterface {
+  name: string,
+  sku: string,
+  size: "Small" | "Regular" | "Large",
+  price: number
+}
 
 @Route("products")
 @Tags('Products')
@@ -15,7 +20,7 @@ export default class ProductController extends Controller {
   //Create Products Controller
   @SuccessResponse("201", "Created")
   @Post("/addProducts")
-  public async createProducts(@Body() _req: ProductCreationParams): Promise<ProductResponse> {
+  public async createProducts(@Body() _req: ProductInterface): Promise<ProductResponse> {
     try {
       const { name, sku, size, price } = _req;
 
@@ -72,7 +77,7 @@ export default class ProductController extends Controller {
   //Update Products By ID Controller
   @SuccessResponse("201", "Created")
   @Put("/updateProduct/{id}")
-  public async updateProduct(@Body() _req: ProductCreationParams, @Path() id: string): Promise<ProductResponse> {
+  public async updateProduct(@Body() _req: ProductInterface, @Path() id: string): Promise<ProductResponse> {
     try {
       const validSizes = ["Small", "Regular", "Large"];
       if (validSizes.includes(_req.size)) {
