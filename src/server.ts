@@ -1,7 +1,8 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { connect } from "mongoose";
-import Router from "./routes/productRoutes";
+import productRouter from "./routes/productRoutes";
+import userRouter from './routes/userRoutes';
 import * as swaggerDocument from './swagger.json';
 
 const app = express();
@@ -18,11 +19,11 @@ app.use(
   swaggerUi.setup(swaggerDocument)
 );
 
-app.use(Router);
+app.use(productRouter);
+app.use(userRouter);
 
 //Database Connection
 const dbPath = 'mongodb://localhost:27017/pizza';
-// const options = {useNewUrlParser: true, useUnifiedTopology: true}
 const mongo = connect(dbPath);
 
 mongo.then(() => {

@@ -1,5 +1,12 @@
 import { Schema, model } from "mongoose";
 
+export interface ProductInterface {
+    name: string,
+    sku: string,
+    size: "Small" | "Regular" | "Large",
+    price: number
+}
+
 let productSchema = new Schema({
     name: {
         type: String,
@@ -27,5 +34,5 @@ productSchema.pre('save', function (next) {
     next();
 })
 
-const Book = model('Product', productSchema, 'Product');
-export default Book;
+const Product = model('Product', productSchema, 'Product');
+export default Product;
